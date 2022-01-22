@@ -9,7 +9,7 @@ var server = net.createServer(function (socket) {
     var serviceSocket = new net.Socket();
     serviceSocket.connect(parseInt(REMOTE_PORT), REMOTE_ADDR);
     serviceSocket.on("data", function (data) {
-        console.log('>> From proxy to client', JSON.stringify(data.toString()));
+        console.log('>> From proxy to client', data.toString());
         socket.write(data);
     });
     socket.on('data', function (msg) {
