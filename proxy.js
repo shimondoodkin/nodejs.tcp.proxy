@@ -20,10 +20,25 @@ var server = net.createServer(function (socket) {
     socket.on('close', function (msg) {
         console.log('<< From client to proxy close');
         serviceSocket.destroy();
+        socket.destroy();
     });
 
     serviceSocket.on('close', function (msg) {
         console.log('<< From proxy to client close');
+        socket.destroy();
+        serviceSocket.destroy();
+    });
+
+    
+    socket.on('error', function (err) {
+        console.log('<< From client to proxy error',err.message);
+        serviceSocket.destroy();
+        socket.destroy();
+    });
+
+    serviceSocket.on('error', function (merrsg) {
+        console.log('<< From proxy to client error',err.message);
+        serviceSocket.destroy();
         socket.destroy();
     });
 
